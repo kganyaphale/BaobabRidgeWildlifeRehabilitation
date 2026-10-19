@@ -2,7 +2,7 @@
 
 ## Team Members
 - Member 1: Suhaan Mooni - 603344
-- Member 2: Kganya Phale - 603862
+- Member 2: Kganya Phale - 603862 
 - Member 3: Amonique van Zyl - 604294
 
 ## Project Description
