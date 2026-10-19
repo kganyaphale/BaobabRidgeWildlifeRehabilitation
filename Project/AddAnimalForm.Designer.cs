@@ -28,18 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.TextBox txtAnimalID;
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.txtAnimalID = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
             this.txtSpecies = new System.Windows.Forms.TextBox();
             this.txtAge = new System.Windows.Forms.TextBox();
             this.txtRecoveryScore = new System.Windows.Forms.TextBox();
             this.btnAddAnimal = new System.Windows.Forms.Button();
-            txtAnimalID = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -90,10 +89,10 @@
             // 
             // txtAnimalID
             // 
-            txtAnimalID.Location = new System.Drawing.Point(148, 212);
-            txtAnimalID.Name = "txtAnimalID";
-            txtAnimalID.Size = new System.Drawing.Size(214, 20);
-            txtAnimalID.TabIndex = 5;
+            this.txtAnimalID.Location = new System.Drawing.Point(148, 212);
+            this.txtAnimalID.Name = "txtAnimalID";
+            this.txtAnimalID.Size = new System.Drawing.Size(214, 20);
+            this.txtAnimalID.TabIndex = 5;
             // 
             // txtName
             // 
@@ -131,6 +130,7 @@
             this.btnAddAnimal.TabIndex = 10;
             this.btnAddAnimal.Text = "Add Animal";
             this.btnAddAnimal.UseVisualStyleBackColor = true;
+            this.btnAddAnimal.Click += new System.EventHandler(this.btnAddAnimal_Click);
             // 
             // AddAnimalForm
             // 
@@ -142,7 +142,7 @@
             this.Controls.Add(this.txtAge);
             this.Controls.Add(this.txtSpecies);
             this.Controls.Add(this.txtName);
-            this.Controls.Add(txtAnimalID);
+            this.Controls.Add(this.txtAnimalID);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -167,6 +167,7 @@
         private System.Windows.Forms.TextBox txtAge;
         private System.Windows.Forms.TextBox txtRecoveryScore;
         private System.Windows.Forms.Button btnAddAnimal;
+        private System.Windows.Forms.TextBox txtAnimalID;
     }
 }
 
