@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.dgvAnimals = new System.Windows.Forms.DataGridView();
+            this.btnDelete = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.SuspendLayout();
             // 
@@ -53,11 +54,23 @@
             this.dgvAnimals.Size = new System.Drawing.Size(1137, 146);
             this.dgvAnimals.TabIndex = 0;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDelete.Location = new System.Drawing.Point(969, 190);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(180, 45);
+            this.btnDelete.TabIndex = 1;
+            this.btnDelete.Text = "Delete Animal";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1161, 498);
+            this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.dgvAnimals);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -69,6 +82,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvAnimals;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
 

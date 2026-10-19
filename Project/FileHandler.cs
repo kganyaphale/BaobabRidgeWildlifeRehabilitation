@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Project
 {
@@ -89,6 +91,69 @@ namespace Project
             }
 
             return animals;
+        }
+
+        /// <summary>
+        /// Removes the animal with the given ID from animals.txt.
+        /// Every other line is written back exactly as it was.
+        /// Returns true if the animal was found and the file was saved.
+        /// </summary>
+        public bool DeleteAnimal(string animalID)
+        {
+            bool deleted = false;
+
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                List<string> linesToKeep = new List<string>();
+                bool found = false;
+
+                foreach (string line in lines)
+                {
+                    // Leave out blank lines so the file never contains any
+                    if (line.Trim() == "")
+                    {
+                        continue;
+                    }
+
+                    string[] parts = line.Split('|');
+
+                    // The ID is always the first field, so only that field is compared
+                    if (parts[0].Trim() == animalID)
+                    {
+                        found = true; // this line is NOT added, which removes it
+                    }
+                    else
+                    {
+                        linesToKeep.Add(line);
+                    }
+                }
+
+                if (found)
+                {
+                    // Overwrite animals.txt with all the lines that were kept
+                    File.WriteAllLines(filePath, linesToKeep);
+                    deleted = true;
+                }
+                else
+                {
+                    MessageBox.Show(animalID + " could not be found in animals.txt.", "Animal Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("animals.txt could not be found, so nothing was deleted.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to change animals.txt (it may be read-only).", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return deleted;
         }
     }
 }
