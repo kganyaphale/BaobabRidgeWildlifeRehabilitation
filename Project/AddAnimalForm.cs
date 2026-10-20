@@ -14,9 +14,14 @@ namespace Project
 {
     public partial class AddAnimalForm : Form
     {
-        public AddAnimalForm()
+
+        private Form1 mainform;
+
+        public AddAnimalForm(Form1 form)
         {
             InitializeComponent();
+
+            mainform = form;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -164,6 +169,8 @@ namespace Project
                 "Animal added successfully.\n" +
                 "Status: " + status + "\n" +
                 "Housing Unit: " + housingUnit);
+
+            ClearControls();
         }
 
         private bool AnimalIDExists(string id)
@@ -231,14 +238,25 @@ namespace Project
             using (StreamWriter writer = new StreamWriter("animals.txt", true))
             {
                 writer.WriteLine(
-                    id + "|" +
-                    name + "|" +
-                    species + "|" +
-                    age + "|" +
-                    recoveryScore + "|" +
-                    status + "|" +
+                    id + " |" +
+                    name + " |" +
+                    species + " |" +
+                    age + " |" +
+                    recoveryScore + " |" +
+                    status + " |" +
                     housingUnit);
             }
+        }
+
+        private void ClearControls()
+        {
+            txtAnimalID.Clear();
+            txtName.Clear();
+            txtSpecies.Clear();
+            txtAge.Clear();
+            txtRecoveryScore.Clear();
+
+            txtAnimalID.Focus();
         }
     }
 }
