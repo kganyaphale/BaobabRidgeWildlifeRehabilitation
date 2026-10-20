@@ -25,7 +25,10 @@ namespace Project
             //Display records on startup
             RefreshGrid();
         }
-
+        /// <summary>
+        /// Reloads the DataGridView with the latest animal records from the text file.
+        /// Formats the UI columns to fit the screen automatically and enforces read-only status.
+        /// </summary>
         public void RefreshGrid()
         {
             List<Animal> animalList = fileHandler.LoadAnimals();

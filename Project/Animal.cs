@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace Project
 {
+    /// <summary>
+    /// Represents an individual animal at the Baobab Ridge rehabilitation center.
+    /// Handles the classification engine logic for species categorization.
+    /// </summary>
     public class Animal
     {
         public string AnimalID { get; set; }

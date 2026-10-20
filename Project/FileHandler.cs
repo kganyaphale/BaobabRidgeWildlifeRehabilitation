@@ -8,6 +8,10 @@ using System.Windows.Forms;
 
 namespace Project
 {
+    /// <summary>
+    /// Handles data parsing and file operations for the animals.txt database.
+    /// Includes error handling for missing files and safely skips malformed text lines.
+    /// </summary>
     public class FileHandler
     {
         private readonly string filePath = "animals.txt";
