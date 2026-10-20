@@ -29,6 +29,23 @@
         private void InitializeComponent()
         {
             this.dgvAnimals = new System.Windows.Forms.DataGridView();
+            this.grpAnimalDetails = new System.Windows.Forms.GroupBox();
+            this.lblAnimalIDInput = new System.Windows.Forms.Label();
+            this.txtAnimalID = new System.Windows.Forms.TextBox();
+            this.lblNameInput = new System.Windows.Forms.Label();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.lblSpeciesInput = new System.Windows.Forms.Label();
+            this.txtSpecies = new System.Windows.Forms.TextBox();
+            this.lblAgeInput = new System.Windows.Forms.Label();
+            this.txtAge = new System.Windows.Forms.TextBox();
+            this.lblRecoveryScoreInput = new System.Windows.Forms.Label();
+            this.txtRecoveryScore = new System.Windows.Forms.TextBox();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnSaveChanges = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
+            this.lblSearchID = new System.Windows.Forms.Label();
+            this.txtSearchID = new System.Windows.Forms.TextBox();
+            this.btnSearch = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
             this.grpSummary = new System.Windows.Forms.GroupBox();
             this.btnGenerateSummary = new System.Windows.Forms.Button();
@@ -50,6 +67,7 @@
             this.lblReleaseReadyCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).BeginInit();
             this.grpSummary.SuspendLayout();
+            this.grpAnimalDetails.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvAnimals
@@ -71,6 +89,7 @@
             this.dgvAnimals.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvAnimals.Size = new System.Drawing.Size(1137, 330);
             this.dgvAnimals.TabIndex = 0;
+            this.dgvAnimals.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAnimals_CellClick);
             // 
             // btnDelete
             // 
@@ -264,17 +283,182 @@
             this.lblReleaseReadyCount.TabIndex = 16;
             this.lblReleaseReadyCount.Text = "-";
             // 
+            // grpAnimalDetails
+            // 
+            this.grpAnimalDetails.Controls.Add(this.lblAnimalIDInput);
+            this.grpAnimalDetails.Controls.Add(this.txtAnimalID);
+            this.grpAnimalDetails.Controls.Add(this.lblNameInput);
+            this.grpAnimalDetails.Controls.Add(this.txtName);
+            this.grpAnimalDetails.Controls.Add(this.lblSpeciesInput);
+            this.grpAnimalDetails.Controls.Add(this.txtSpecies);
+            this.grpAnimalDetails.Controls.Add(this.lblAgeInput);
+            this.grpAnimalDetails.Controls.Add(this.txtAge);
+            this.grpAnimalDetails.Controls.Add(this.lblRecoveryScoreInput);
+            this.grpAnimalDetails.Controls.Add(this.txtRecoveryScore);
+            this.grpAnimalDetails.Controls.Add(this.btnAdd);
+            this.grpAnimalDetails.Controls.Add(this.btnSaveChanges);
+            this.grpAnimalDetails.Controls.Add(this.btnClear);
+            this.grpAnimalDetails.Controls.Add(this.lblSearchID);
+            this.grpAnimalDetails.Controls.Add(this.txtSearchID);
+            this.grpAnimalDetails.Controls.Add(this.btnSearch);
+            this.grpAnimalDetails.Location = new System.Drawing.Point(12, 370);
+            this.grpAnimalDetails.Name = "grpAnimalDetails";
+            this.grpAnimalDetails.Size = new System.Drawing.Size(620, 480);
+            this.grpAnimalDetails.TabIndex = 3;
+            this.grpAnimalDetails.TabStop = false;
+            this.grpAnimalDetails.Text = "Animal Details";
+            // 
+            // lblAnimalIDInput
+            // 
+            this.lblAnimalIDInput.AutoSize = true;
+            this.lblAnimalIDInput.Location = new System.Drawing.Point(20, 48);
+            this.lblAnimalIDInput.Name = "lblAnimalIDInput";
+            this.lblAnimalIDInput.Size = new System.Drawing.Size(130, 25);
+            this.lblAnimalIDInput.TabIndex = 0;
+            this.lblAnimalIDInput.Text = "Animal ID:";
+            // 
+            // txtAnimalID
+            // 
+            this.txtAnimalID.Location = new System.Drawing.Point(230, 45);
+            this.txtAnimalID.Name = "txtAnimalID";
+            this.txtAnimalID.Size = new System.Drawing.Size(360, 31);
+            this.txtAnimalID.TabIndex = 1;
+            // 
+            // lblNameInput
+            // 
+            this.lblNameInput.AutoSize = true;
+            this.lblNameInput.Location = new System.Drawing.Point(20, 98);
+            this.lblNameInput.Name = "lblNameInput";
+            this.lblNameInput.Size = new System.Drawing.Size(65, 25);
+            this.lblNameInput.TabIndex = 2;
+            this.lblNameInput.Text = "Name:";
+            // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(230, 95);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(360, 31);
+            this.txtName.TabIndex = 3;
+            // 
+            // lblSpeciesInput
+            // 
+            this.lblSpeciesInput.AutoSize = true;
+            this.lblSpeciesInput.Location = new System.Drawing.Point(20, 148);
+            this.lblSpeciesInput.Name = "lblSpeciesInput";
+            this.lblSpeciesInput.Size = new System.Drawing.Size(104, 25);
+            this.lblSpeciesInput.TabIndex = 4;
+            this.lblSpeciesInput.Text = "Species:";
+            // 
+            // txtSpecies
+            // 
+            this.txtSpecies.Location = new System.Drawing.Point(230, 145);
+            this.txtSpecies.Name = "txtSpecies";
+            this.txtSpecies.Size = new System.Drawing.Size(360, 31);
+            this.txtSpecies.TabIndex = 5;
+            // 
+            // lblAgeInput
+            // 
+            this.lblAgeInput.AutoSize = true;
+            this.lblAgeInput.Location = new System.Drawing.Point(20, 198);
+            this.lblAgeInput.Name = "lblAgeInput";
+            this.lblAgeInput.Size = new System.Drawing.Size(52, 25);
+            this.lblAgeInput.TabIndex = 6;
+            this.lblAgeInput.Text = "Age:";
+            // 
+            // txtAge
+            // 
+            this.txtAge.Location = new System.Drawing.Point(230, 195);
+            this.txtAge.Name = "txtAge";
+            this.txtAge.Size = new System.Drawing.Size(360, 31);
+            this.txtAge.TabIndex = 7;
+            // 
+            // lblRecoveryScoreInput
+            // 
+            this.lblRecoveryScoreInput.AutoSize = true;
+            this.lblRecoveryScoreInput.Location = new System.Drawing.Point(20, 248);
+            this.lblRecoveryScoreInput.Name = "lblRecoveryScoreInput";
+            this.lblRecoveryScoreInput.Size = new System.Drawing.Size(195, 25);
+            this.lblRecoveryScoreInput.TabIndex = 8;
+            this.lblRecoveryScoreInput.Text = "Recovery Score:";
+            // 
+            // txtRecoveryScore
+            // 
+            this.txtRecoveryScore.Location = new System.Drawing.Point(230, 245);
+            this.txtRecoveryScore.Name = "txtRecoveryScore";
+            this.txtRecoveryScore.Size = new System.Drawing.Size(360, 31);
+            this.txtRecoveryScore.TabIndex = 9;
+            // 
+            // btnAdd
+            // 
+            this.btnAdd.Location = new System.Drawing.Point(20, 310);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(180, 45);
+            this.btnAdd.TabIndex = 10;
+            this.btnAdd.Text = "Add Animal";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnSaveChanges
+            // 
+            this.btnSaveChanges.Enabled = false;
+            this.btnSaveChanges.Location = new System.Drawing.Point(210, 310);
+            this.btnSaveChanges.Name = "btnSaveChanges";
+            this.btnSaveChanges.Size = new System.Drawing.Size(180, 45);
+            this.btnSaveChanges.TabIndex = 11;
+            this.btnSaveChanges.Text = "Save Changes";
+            this.btnSaveChanges.UseVisualStyleBackColor = true;
+            this.btnSaveChanges.Click += new System.EventHandler(this.btnSaveChanges_Click);
+            // 
+            // btnClear
+            // 
+            this.btnClear.Location = new System.Drawing.Point(400, 310);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(180, 45);
+            this.btnClear.TabIndex = 12;
+            this.btnClear.Text = "Clear";
+            this.btnClear.UseVisualStyleBackColor = true;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            // 
+            // lblSearchID
+            // 
+            this.lblSearchID.AutoSize = true;
+            this.lblSearchID.Location = new System.Drawing.Point(20, 398);
+            this.lblSearchID.Name = "lblSearchID";
+            this.lblSearchID.Size = new System.Drawing.Size(160, 25);
+            this.lblSearchID.TabIndex = 13;
+            this.lblSearchID.Text = "Search by ID:";
+            // 
+            // txtSearchID
+            // 
+            this.txtSearchID.Location = new System.Drawing.Point(230, 395);
+            this.txtSearchID.Name = "txtSearchID";
+            this.txtSearchID.Size = new System.Drawing.Size(200, 31);
+            this.txtSearchID.TabIndex = 14;
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(445, 388);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(135, 45);
+            this.btnSearch.TabIndex = 15;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1161, 865);
+            this.Controls.Add(this.grpAnimalDetails);
             this.Controls.Add(this.grpSummary);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.dgvAnimals);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).EndInit();
+            this.grpAnimalDetails.ResumeLayout(false);
+            this.grpAnimalDetails.PerformLayout();
             this.grpSummary.ResumeLayout(false);
             this.grpSummary.PerformLayout();
             this.ResumeLayout(false);
@@ -284,6 +468,23 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dgvAnimals;
+        private System.Windows.Forms.GroupBox grpAnimalDetails;
+        private System.Windows.Forms.Label lblAnimalIDInput;
+        private System.Windows.Forms.TextBox txtAnimalID;
+        private System.Windows.Forms.Label lblNameInput;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.Label lblSpeciesInput;
+        private System.Windows.Forms.TextBox txtSpecies;
+        private System.Windows.Forms.Label lblAgeInput;
+        private System.Windows.Forms.TextBox txtAge;
+        private System.Windows.Forms.Label lblRecoveryScoreInput;
+        private System.Windows.Forms.TextBox txtRecoveryScore;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnSaveChanges;
+        private System.Windows.Forms.Button btnClear;
+        private System.Windows.Forms.Label lblSearchID;
+        private System.Windows.Forms.TextBox txtSearchID;
+        private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.GroupBox grpSummary;
         private System.Windows.Forms.Button btnGenerateSummary;

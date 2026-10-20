@@ -159,5 +159,163 @@ namespace Project
 
             return deleted;
         }
+
+        /// <summary>
+        /// Checks if an animal with this ID is already saved in animals.txt.
+        /// </summary>
+        public bool AnimalIDExists(string animalID)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    return false;
+                }
+
+                string[] lines = File.ReadAllLines(filePath);
+
+                foreach (string line in lines)
+                {
+                    string[] parts = line.Split('|');
+
+                    // Compare in upper case so wr-0001 and WR-0001 count as the same ID
+                    if (parts[0].Trim().ToUpper() == animalID)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to read animals.txt.", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Adds one new animal as a new line at the end of animals.txt.
+        /// The lines already in the file are not changed. Returns true if it was saved.
+        /// </summary>
+        public bool AddAnimal(Animal animal)
+        {
+            try
+            {
+                // If the last line in the file has no line break after it, one must be added first,
+                // otherwise the new animal would be joined onto the end of the last line
+                bool needsLineBreak = false;
+
+                if (File.Exists(filePath))
+                {
+                    string existingText = File.ReadAllText(filePath);
+
+                    if (existingText.Length > 0 && !existingText.EndsWith("\n"))
+                    {
+                        needsLineBreak = true;
+                    }
+                }
+
+                // true = add to the end of the file instead of overwriting it
+                using (StreamWriter writer = new StreamWriter(filePath, true))
+                {
+                    if (needsLineBreak)
+                    {
+                        writer.WriteLine();
+                    }
+
+                    writer.WriteLine(ToFileLine(animal));
+                }
+
+                return true;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("The folder for animals.txt could not be found, so the animal was not saved.", "Folder Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to change animals.txt (it may be read-only).", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Rewrites animals.txt with the changed details of one animal.
+        /// Only the line with the same ID is replaced, every other line stays exactly as it was.
+        /// Returns true if the file was saved.
+        /// </summary>
+        public bool UpdateAnimal(Animal updatedAnimal)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                List<string> newLines = new List<string>();
+                bool found = false;
+
+                foreach (string line in lines)
+                {
+                    // Leave out blank lines so the file never contains any
+                    if (line.Trim() == "")
+                    {
+                        continue;
+                    }
+
+                    string[] parts = line.Split('|');
+
+                    if (parts[0].Trim().ToUpper() == updatedAnimal.AnimalID)
+                    {
+                        // This is the animal being edited, so write its new details instead
+                        newLines.Add(ToFileLine(updatedAnimal));
+                        found = true;
+                    }
+                    else
+                    {
+                        newLines.Add(line);
+                    }
+                }
+
+                if (!found)
+                {
+                    MessageBox.Show(updatedAnimal.AnimalID + " could not be found in animals.txt, so nothing was changed.", "Animal Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+
+                // Overwrite animals.txt with all the lines, including the changed one
+                File.WriteAllLines(filePath, newLines);
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("animals.txt could not be found, so the changes were not saved.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to change animals.txt (it may be read-only).", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Turns an animal into one line for animals.txt in the order
+        /// ID|Name|Species|Age|Score|Status|Housing Unit (no spaces around the |).
+        /// </summary>
+        private string ToFileLine(Animal animal)
+        {
+            return animal.AnimalID + "|" + animal.Name + "|" + animal.Species + "|" + animal.Age + "|" + animal.RecoveryScore + "|" + animal.Status + "|" + animal.HousingUnit;
+        }
     }
 }
