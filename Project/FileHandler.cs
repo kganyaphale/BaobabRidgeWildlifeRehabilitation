@@ -249,6 +249,67 @@ namespace Project
         }
 
         /// <summary>
+        /// Rewrites animals.txt with the changed details of one animal.
+        /// Only the line with the same ID is replaced, every other line stays exactly as it was.
+        /// Returns true if the file was saved.
+        /// </summary>
+        public bool UpdateAnimal(Animal updatedAnimal)
+        {
+            try
+            {
+                string[] lines = File.ReadAllLines(filePath);
+                List<string> newLines = new List<string>();
+                bool found = false;
+
+                foreach (string line in lines)
+                {
+                    // Leave out blank lines so the file never contains any
+                    if (line.Trim() == "")
+                    {
+                        continue;
+                    }
+
+                    string[] parts = line.Split('|');
+
+                    if (parts[0].Trim().ToUpper() == updatedAnimal.AnimalID)
+                    {
+                        // This is the animal being edited, so write its new details instead
+                        newLines.Add(ToFileLine(updatedAnimal));
+                        found = true;
+                    }
+                    else
+                    {
+                        newLines.Add(line);
+                    }
+                }
+
+                if (!found)
+                {
+                    MessageBox.Show(updatedAnimal.AnimalID + " could not be found in animals.txt, so nothing was changed.", "Animal Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return false;
+                }
+
+                // Overwrite animals.txt with all the lines, including the changed one
+                File.WriteAllLines(filePath, newLines);
+                return true;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("animals.txt could not be found, so the changes were not saved.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to change animals.txt (it may be read-only).", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Turns an animal into one line for animals.txt in the order
         /// ID|Name|Species|Age|Score|Status|Housing Unit (no spaces around the |).
         /// </summary>

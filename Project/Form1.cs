@@ -71,6 +71,13 @@ namespace Project
                 if (deleted)
                 {
                     RefreshGrid();
+
+                    // If the deleted animal was loaded in the input boxes, clear them
+                    if (txtAnimalID.ReadOnly && txtAnimalID.Text == animalID)
+                    {
+                        ClearInputs();
+                        SetEditMode(false);
+                    }
                 }
             }
         }
@@ -230,6 +237,120 @@ namespace Project
             txtAge.Clear();
             txtRecoveryScore.Clear();
             txtAnimalID.Focus();
+        }
+
+        /// <summary>
+        /// Loads the animal in the clicked grid row into the input boxes so it can be edited.
+        /// </summary>
+        private void dgvAnimals_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Clicking a column header gives a row index of -1, so that is ignored
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
+
+            DataGridViewRow row = dgvAnimals.Rows[e.RowIndex];
+
+            Animal animal = new Animal();
+            animal.AnimalID = row.Cells["AnimalID"].Value.ToString();
+            animal.Name = row.Cells["Name"].Value.ToString();
+            animal.Species = row.Cells["Species"].Value.ToString();
+            animal.Age = int.Parse(row.Cells["Age"].Value.ToString());
+            animal.RecoveryScore = int.Parse(row.Cells["RecoveryScore"].Value.ToString());
+
+            LoadAnimalIntoInputs(animal);
+        }
+
+        /// <summary>
+        /// Finds the animal with the ID typed in the search box (not case-sensitive) and loads it for editing.
+        /// </summary>
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchID = txtSearchID.Text.Trim().ToUpper();
+
+            if (searchID == "")
+            {
+                MessageBox.Show("Please type an Animal ID to search for.", "Search", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                txtSearchID.Focus();
+                return;
+            }
+
+            List<Animal> animals = fileHandler.LoadAnimals();
+
+            foreach (Animal animal in animals)
+            {
+                // Both IDs are in upper case, so wr-0001 finds WR-0001
+                if (animal.AnimalID.ToUpper() == searchID)
+                {
+                    LoadAnimalIntoInputs(animal);
+                    return;
+                }
+            }
+
+            // Not found: tell the user and change nothing else
+            MessageBox.Show("No animal with the ID " + searchID + " was found.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Saves the changes to the loaded animal after checking all the inputs again.
+        /// </summary>
+        private void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            // false = the ID is not checked for being new, because an existing animal's ID cannot change
+            if (!ValidateInputs(false))
+            {
+                return;
+            }
+
+            Animal updatedAnimal = ReadAnimalFromInputs();
+
+            // Always recalculate, even if the score was not changed
+            updatedAnimal.DetermineStatusAndHousing();
+
+            bool saved = fileHandler.UpdateAnimal(updatedAnimal);
+
+            if (saved)
+            {
+                MessageBox.Show(updatedAnimal.AnimalID + " was updated.\n\nStatus: " + updatedAnimal.Status + "\nHousing Unit: " + updatedAnimal.HousingUnit, "Animal Updated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshGrid();
+                ClearInputs();
+                SetEditMode(false);
+            }
+        }
+
+        /// <summary>
+        /// Leaves edit mode and empties the input boxes so a new animal can be added.
+        /// </summary>
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
+            SetEditMode(false);
+        }
+
+        /// <summary>
+        /// Puts an animal's details into the input boxes and switches the form to edit mode.
+        /// </summary>
+        private void LoadAnimalIntoInputs(Animal animal)
+        {
+            txtAnimalID.Text = animal.AnimalID;
+            txtName.Text = animal.Name;
+            txtSpecies.Text = animal.Species;
+            txtAge.Text = animal.Age.ToString();
+            txtRecoveryScore.Text = animal.RecoveryScore.ToString();
+
+            SetEditMode(true);
+        }
+
+        /// <summary>
+        /// Switches between Add mode (editing = false) and Edit mode (editing = true).
+        /// In Edit mode the ID cannot be changed, Add is disabled and Save Changes is enabled.
+        /// </summary>
+        private void SetEditMode(bool editing)
+        {
+            txtAnimalID.ReadOnly = editing;
+            btnAdd.Enabled = !editing;
+            btnSaveChanges.Enabled = editing;
         }
 
         /// <summary>
