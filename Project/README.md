@@ -16,10 +16,10 @@ This project is a C# Windows Forms application that manages wildlife rehabilitat
 - Generate Summary Reports 
 
 ## How to Build and Run
-1. Open the solution in Visual Studio.
-2. Make sure .NET 8.0 or newer is installed.
-3. Build the solution.
-4. Run the application. 
+1. Clone the repository from GitHub.
+2. Open `Project.slnx` in Visual Studio 2022 (latest update) or Visual Studio 2026.
+3. The project targets .NET 8 (`net8.0-windows`). It also runs on newer .NET versions if .NET 8 is not installed.
+4. Press F5 to build and run. The starter `animals.txt` is copied next to the .exe automatically.
 
 ## File Formats
 
