@@ -37,4 +37,7 @@ Contains the generated summary report with:
 - Number of animals per status
 
 ## Known Limitations
-None currently known.
+- Only one animal can be deleted at a time.
+- The summary counts animals by the Status saved in animals.txt, so a hand-edited file with a misspelled status will not be counted under any status.
+- Malformed lines in animals.txt are skipped and not shown in the grid, but they stay in the file until they are removed by hand.
+- Notepad does not lock files, so the "file in use" error is best tested by opening animals.txt in Excel or Word, or by setting the file to read-only.
