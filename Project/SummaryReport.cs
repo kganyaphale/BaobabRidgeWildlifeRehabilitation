@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Project
 {
@@ -81,6 +83,60 @@ namespace Project
             // InvariantCulture makes sure a full stop is used, because South African
             // regional settings would show a comma instead (7,75 instead of 7.75)
             return average.ToString("0.00", CultureInfo.InvariantCulture);
+        }
+
+        /// <summary>
+        /// Writes the report to summary.txt in the same folder as the .exe.
+        /// The old file is replaced every time. Returns true if the file was saved.
+        /// </summary>
+        public bool SaveToFile()
+        {
+            // Application.StartupPath is the folder the .exe is running from
+            string summaryPath = Path.Combine(Application.StartupPath, "summary.txt");
+
+            // Every label is padded to 29 characters so all the numbers line up in one column
+            int column = 29;
+
+            // Separator line between the sections of the report
+            string separator = "----------------------------------------";
+
+            try
+            {
+                // false = overwrite the file instead of adding to the end of it
+                using (StreamWriter writer = new StreamWriter(summaryPath, false))
+                {
+                    writer.WriteLine("BAOBAB RIDGE WILDLIFE REHABILITATION CENTRE");
+                    writer.WriteLine("ANIMAL SUMMARY REPORT");
+                    writer.WriteLine("Generated: " + DateTime.Now.ToString("yyyy-MM-dd HH:mm", CultureInfo.InvariantCulture));
+                    writer.WriteLine(separator);
+                    writer.WriteLine("Total animals:".PadRight(column) + TotalAnimals);
+                    writer.WriteLine("Average age (years):".PadRight(column) + FormatAverage(AverageAge));
+                    writer.WriteLine("Average recovery score:".PadRight(column) + FormatAverage(AverageScore));
+                    writer.WriteLine(separator);
+                    writer.WriteLine("Animals per status:");
+                    writer.WriteLine("  Critical:".PadRight(column) + CriticalCount);
+                    writer.WriteLine("  Serious:".PadRight(column) + SeriousCount);
+                    writer.WriteLine("  Stable:".PadRight(column) + StableCount);
+                    writer.WriteLine("  Recovering:".PadRight(column) + RecoveringCount);
+                    writer.WriteLine("  Release-Ready:".PadRight(column) + ReleaseReadyCount);
+                }
+
+                return true;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("The folder for summary.txt could not be found, so the summary was not saved.", "Folder Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("summary.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("You do not have permission to save summary.txt (it may be read-only).", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return false;
         }
     }
 }

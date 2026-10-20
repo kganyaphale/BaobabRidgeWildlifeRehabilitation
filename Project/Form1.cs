@@ -100,6 +100,14 @@ namespace Project
             lblStableCount.Text = report.StableCount.ToString();
             lblRecoveringCount.Text = report.RecoveringCount.ToString();
             lblReleaseReadyCount.Text = report.ReleaseReadyCount.ToString();
+
+            // Save the same results to summary.txt
+            bool saved = report.SaveToFile();
+
+            if (saved)
+            {
+                MessageBox.Show("The summary was saved to summary.txt.", "Summary Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }
