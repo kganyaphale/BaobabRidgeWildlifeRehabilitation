@@ -71,5 +71,11 @@ namespace Project
                 }
             }
         }
+
+        private void btnAddAnimal_Click(object sender, EventArgs e)
+        {
+            AddAnimalForm addForm = new AddAnimalForm(this);
+            addForm.Show();
+        }
     }
 }
