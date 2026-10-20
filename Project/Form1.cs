@@ -80,5 +80,26 @@ namespace Project
             AddAnimalForm addForm = new AddAnimalForm(this);
             addForm.Show();
         }
+
+        /// <summary>
+        /// Works out the summary from the animals currently in animals.txt and shows it on the form.
+        /// </summary>
+        private void btnGenerateSummary_Click(object sender, EventArgs e)
+        {
+            // Load from the file so the summary always uses the latest data
+            List<Animal> animals = fileHandler.LoadAnimals();
+
+            SummaryReport report = new SummaryReport();
+            report.Calculate(animals);
+
+            lblTotalAnimals.Text = report.TotalAnimals.ToString();
+            lblAverageAge.Text = report.FormatAverage(report.AverageAge);
+            lblAverageScore.Text = report.FormatAverage(report.AverageScore);
+            lblCriticalCount.Text = report.CriticalCount.ToString();
+            lblSeriousCount.Text = report.SeriousCount.ToString();
+            lblStableCount.Text = report.StableCount.ToString();
+            lblRecoveringCount.Text = report.RecoveringCount.ToString();
+            lblReleaseReadyCount.Text = report.ReleaseReadyCount.ToString();
+        }
     }
 }
