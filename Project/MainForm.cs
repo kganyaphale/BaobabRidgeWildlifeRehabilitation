@@ -10,24 +10,34 @@ using System.Windows.Forms;
 
 namespace Project
 {
-    public partial class Form1 : Form
+    /// <summary>
+    /// The main screen of the program: the animal grid, the Add/Update inputs,
+    /// the Delete button and the Summary Report.
+    /// </summary>
+    public partial class MainForm : Form
     {
         private FileHandler fileHandler = new FileHandler();
 
-        public Form1()
+        /// <summary>
+        /// Creates the main form and connects the Load event.
+        /// </summary>
+        public MainForm()
         {
             InitializeComponent();
-            this.Load += Form1_Load; 
+            this.Load += MainForm_Load;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Shows all the animals from animals.txt in the grid when the program starts.
+        /// </summary>
+        private void MainForm_Load(object sender, EventArgs e)
         {
-            //Display records on startup
             RefreshGrid();
         }
+
         /// <summary>
-        /// Reloads the DataGridView with the latest animal records from the text file.
-        /// Formats the UI columns to fit the screen automatically and enforces read-only status.
+        /// Reloads the grid with the latest animal records from animals.txt
+        /// and gives the columns readable headers.
         /// </summary>
         public void RefreshGrid()
         {

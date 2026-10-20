@@ -1,6 +1,6 @@
 ﻿namespace Project
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -445,7 +445,7 @@
             this.btnSearch.UseVisualStyleBackColor = true;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -454,8 +454,8 @@
             this.Controls.Add(this.grpSummary);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.dgvAnimals);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "MainForm";
+            this.Text = "Baobab Ridge Wildlife Rehabilitation Records";
             ((System.ComponentModel.ISupportInitialize)(this.dgvAnimals)).EndInit();
             this.grpAnimalDetails.ResumeLayout(false);
             this.grpAnimalDetails.PerformLayout();

@@ -14,8 +14,16 @@ namespace Project
     /// </summary>
     public class FileHandler
     {
-        private readonly string filePath = "animals.txt";
+        // animals.txt is always kept in the same folder as the running .exe
+        private readonly string filePath = Path.Combine(Application.StartupPath, "animals.txt");
 
+        // Makes sure the "lines were skipped" message is only shown once
+        private bool skippedMessageShown = false;
+
+        /// <summary>
+        /// Reads every valid animal from animals.txt. Malformed lines are skipped and counted.
+        /// If the file does not exist, an empty one is created and an empty list is returned.
+        /// </summary>
         public List<Animal> LoadAnimals()
         {
             List<Animal> animals = new List<Animal>();
@@ -75,23 +83,28 @@ namespace Project
                     animals.Add(newAnimal);
                 }
 
-                // Display skipped line count once after loading
-                if (skippedLines > 0)
+                // Tell the user once how many lines were skipped
+                if (skippedLines > 0 && !skippedMessageShown)
                 {
+                    skippedMessageShown = true;
                     System.Windows.Forms.MessageBox.Show($"{skippedLines} malformed line(s) were skipped during loading.", "Data Load Warning", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Warning);
                 }
             }
-            catch (System.IO.IOException ex)
+            catch (DirectoryNotFoundException)
             {
-                System.Windows.Forms.MessageBox.Show("The file is currently in use by another program. Please close it and try again.\n\nDetails: " + ex.Message, "File Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("The folder for animals.txt could not be found, so no animals were loaded.", "Folder Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (System.UnauthorizedAccessException ex)
+            catch (IOException)
             {
-                System.Windows.Forms.MessageBox.Show("You do not have permission to access the file.\n\nDetails: " + ex.Message, "Permission Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("animals.txt is open in another program. Close it and try again.", "File In Use", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (System.Exception ex)
+            catch (UnauthorizedAccessException)
             {
-                System.Windows.Forms.MessageBox.Show("An unexpected error occurred while loading the data.\n\nDetails: " + ex.Message, "Error", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                MessageBox.Show("You do not have permission to read animals.txt.", "Permission Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Something went wrong while loading animals.txt. No animals were loaded.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return animals;
@@ -147,6 +160,10 @@ namespace Project
             catch (FileNotFoundException)
             {
                 MessageBox.Show("animals.txt could not be found, so nothing was deleted.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("The folder for animals.txt could not be found, so nothing was deleted.", "Folder Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (IOException)
             {
@@ -296,6 +313,10 @@ namespace Project
             catch (FileNotFoundException)
             {
                 MessageBox.Show("animals.txt could not be found, so the changes were not saved.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (DirectoryNotFoundException)
+            {
+                MessageBox.Show("The folder for animals.txt could not be found, so the changes were not saved.", "Folder Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (IOException)
             {

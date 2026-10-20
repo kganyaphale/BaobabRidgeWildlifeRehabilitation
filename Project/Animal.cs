@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Project
 {
     /// <summary>
-    /// Represents an individual animal at the Baobab Ridge rehabilitation center.
-    /// Handles the classification engine logic for species categorization.
+    /// Represents one animal at the Baobab Ridge rehabilitation centre.
+    /// Also contains the single classification method used by both Add and Update.
     /// </summary>
     public class Animal
     {
@@ -20,7 +20,10 @@ namespace Project
         public string Status { get; set; }
         public string HousingUnit { get; set; }
 
-        // Calculate status and housing based on recovery score
+        /// <summary>
+        /// Works out the Status and Housing Unit from the Recovery Score (Section 4 of the brief).
+        /// This is the only place the classification rules are written.
+        /// </summary>
         public void DetermineStatusAndHousing()
         {
             if (RecoveryScore >= 0 && RecoveryScore <= 19)
